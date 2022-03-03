@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiringTask", "HiringTask\HiringTask.csproj", "{7991105B-E0EE-4BE4-AC5F-849EECE8AFB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7991105B-E0EE-4BE4-AC5F-849EECE8AFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7991105B-E0EE-4BE4-AC5F-849EECE8AFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7991105B-E0EE-4BE4-AC5F-849EECE8AFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7991105B-E0EE-4BE4-AC5F-849EECE8AFB9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88312374-CE01-47A3-B9F2-0BDEFAB700B0}
+	EndGlobalSection
+EndGlobal
