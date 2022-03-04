@@ -16,10 +16,11 @@ namespace HiringTask.Implementation
             var nodeStart = GetNode(fromCurrency);
             var nodeEnd = GetNode(toCurrency);
 
-            var result = amount * DFSSearch(nodeStart, nodeEnd);
+            var result = amount * BFSSearch(nodeStart, nodeEnd);
             foreach (var node in Nodes)
             {
                 node.IsVisited = false;
+                node.PrevNode = null;
             }
             return result;
         }
@@ -51,7 +52,49 @@ namespace HiringTask.Implementation
         }
         private double BFSSearch(Node startNode, Node endNode)
         {
-            return 0;
+            if (startNode==endNode) 
+            {
+                return 1;
+            }
+            var queue = new Queue<Node>();
+            startNode.IsVisited = true;
+            queue.Enqueue(startNode);
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                foreach (var node in current.Edges.Select(x => x.EndNode).ToList())
+                {
+                    if (!node.IsVisited)
+                    {
+                        node.IsVisited = true;
+                        queue.Enqueue(node);
+                        node.PrevNode = current;
+                        if(node== endNode)
+                        {
+                            queue.Clear();
+                            break;
+                        }
+                    }
+                }
+            }
+            return TraceRoute(endNode);
+
+        }
+        private double TraceRoute(Node endNode)
+        {
+            var amount = 1.0;
+            var node = endNode;
+            if (node.PrevNode is null)
+            {
+                throw new Exception("There is no way");
+            }
+            while (node.PrevNode is not null)
+            {
+                var multi = node.Edges.FirstOrDefault(x => x.EndNode == node.PrevNode)?.Amount ?? 1;
+                amount *= 1 / multi;
+                node = node.PrevNode;
+            }
+            return amount;
         }
 
         private Node GetOrAddNode(string name)
@@ -60,6 +103,7 @@ namespace HiringTask.Implementation
             if (node is null)
             {
                 node = new Node() { Name = name };
+                node.PrevNode = null;
                 Nodes.Add(node);
             }
             return node;
