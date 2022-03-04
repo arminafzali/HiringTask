@@ -6,23 +6,38 @@ namespace HiringTask.Implementation
     public class CurrencyConverter : ICurrencyConverter
     {
         private IList<Node> Nodes;
+        private IList<Task> Tasks;
+
+        public CurrencyConverter()
+        {
+            Tasks = new List<Task>();
+            Nodes = new List<Node>();
+        }
+
         public void ClearConfiguration()
         {
-            Nodes = new List<Node>();
+            Task.WaitAll(Tasks.ToArray());
+            Tasks.Clear();
+            Nodes.Clear();
         }
 
         public double Convert(string fromCurrency, string toCurrency, double amount)
         {
-            var nodeStart = GetNode(fromCurrency);
-            var nodeEnd = GetNode(toCurrency);
+            Task.WaitAll(Tasks.ToArray());
+            Tasks.Clear();
+            var t = new Task<double>(() => {
+                var nodeStart = GetNode(fromCurrency);
+                var nodeEnd = GetNode(toCurrency);
 
-            var result = amount * BFSSearch(nodeStart, nodeEnd);
-            foreach (var node in Nodes)
-            {
-                node.IsVisited = false;
-                node.PrevNode = null;
-            }
-            return result;
+                var result = amount * BFSSearch(nodeStart, nodeEnd);
+                ClearAfterAlgorithm();
+                return result;
+            });
+            Tasks.Add(t);
+            t.Start();
+
+            return t.Result;
+            
         }
 
         public void UpdateConfiguration(IEnumerable<Tuple<string, string, double>> conversionRates)
@@ -137,6 +152,14 @@ namespace HiringTask.Implementation
                 node1.Edges.Add(edge);
             }
             return edge;
+        }
+        private void ClearAfterAlgorithm()
+        {
+            foreach (var node in Nodes)
+            {
+                node.IsVisited = false;
+                node.PrevNode = null;
+            }
         }
 
         //public string Print()
