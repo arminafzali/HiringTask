@@ -77,7 +77,13 @@ namespace HiringTask.Implementation
                     }
                 }
             }
-            return TraceRoute(endNode);
+
+            var amount= TraceRoute(endNode);
+
+            //GetOrAddEdge(startNode, endNode, 1 / amount);
+            //GetOrAddEdge(endNode, startNode, amount);
+
+            return amount;
 
         }
         private double TraceRoute(Node endNode)
